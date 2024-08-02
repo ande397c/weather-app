@@ -18,20 +18,5 @@ export const cardData = [
   location: "Stockholm",
   temperature: 22,
   desc: "Sunny",
- },
- {
-  location: "Copenhagen",
-  temperature: 22,
-  desc: "Sunny",
- },
- {
-  location: "Copenhagen",
-  temperature: 22,
-  desc: "Sunny",
- },
- {
-  location: "Copenhagen",
-  temperature: 22,
-  desc: "Sunny",
- },
+ }
 ];

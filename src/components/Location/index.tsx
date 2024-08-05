@@ -5,6 +5,7 @@ import axios from "axios";
 import { WeatherLocation } from "../../types/weatherLocation";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 import { getDate } from "../../utils/getDate";
+import { convertEpoch } from "../../utils/convertEpoch";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -71,6 +72,23 @@ export const Location = () => {
     </p>
    </div>
    <div className="bg-slate-500 rounded-lg mt-8 p-2">
+    <p className="border-b border-teal-600 pb-1">
+     <FontAwesomeIcon icon={faCalendarDays} /> Forecast for the next {weatherData && weatherData.daily.length} days
+    </p>
+    <div className="flex justify-between overflow-x-auto gap-1 pt-1 w-[99%]">
+     {weatherData &&
+      weatherData.hourly.map((hour, i) => (
+       <div key={i} className={`flex flex-col items-center`}>
+        <p className="">{convertEpoch(hour.dt)}</p>
+        <div className="size-9">
+         <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt={hour.weather[0].main} />
+        </div>
+        <p className="">{Math.round(hour.temp)}°</p>
+       </div>
+      ))}
+    </div>
+   </div>
+   <div className="bg-slate-500 rounded-lg mt-4 p-2">
     <p className="border-b border-teal-600 pb-1">
      <FontAwesomeIcon icon={faCalendarDays} /> Forecast for the next {weatherData && weatherData.daily.length} days
     </p>

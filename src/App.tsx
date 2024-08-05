@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const App = () => {
  const navigate = useNavigate();
  const [city, setCity] = useState<string>("");
- const [editingMode, setEditingMode] = useState(true);
+ const [editingMode, setEditingMode] = useState(false);
 
  const search = () => {
   navigate(`/weather/${city}`);
@@ -41,8 +41,8 @@ const App = () => {
      </button>
     )}
    </div>
-   {cardData.map((forecast) => (
-    <ForecastCard location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} editModeEnabled={editingMode} />
+   {cardData.map((forecast, i) => (
+    <ForecastCard key={i} location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} editModeEnabled={editingMode} />
    ))}
   </MainLayout>
  );

@@ -1,4 +1,4 @@
-export const getDate = (date: number) => {
+export const convertEpochToDate = (date: number) => {
  const WeekDays = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
 
  const currentDate = new Date();

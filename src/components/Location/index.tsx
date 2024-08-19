@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import { MainLayout } from "../../layout/MainLayout";
 import { DetailBlock } from "../DetailBlock";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { WeatherLocation } from "../../types/weatherLocation";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 import { convertEpochToDate } from "../../utils/convertEpochToDate";
 import { convertEpochToTime } from "../../utils/convertEpochToTime";
+import { addCityToStorage, getStorageCities } from "../../utils/LocalStorage";
 import { faCalendarDays, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Location = () => {
+ const navigate = useNavigate();
+ const { location } = useParams<{ location: string }>();
+ const [isCityAdded, setIsCityAdded] = useState(getStorageCities().includes(location));
  const [coordinates, setCoordinates] = useState({ lat: Number, lon: Number });
  const [weatherData, setWeatherData] = useState<WeatherLocation>();
- const { location } = useParams<{ location: string }>();
 
  const api_key = import.meta.env.VITE_API_KEY;
 
@@ -61,9 +64,22 @@ export const Location = () => {
    });
  };
 
+ const addCity = () => {
+  addCityToStorage(location);
+  setIsCityAdded(true)
+ };
+
  return (
   <MainLayout>
-   <div className="flex flex-col items-center mt-10">
+   {!isCityAdded && (
+    <div className="flex justify-between">
+     <p onClick={() => navigate("/")}>Cancel</p>
+     <p className="font-semibold" onClick={addCity}>
+      Add
+     </p>
+    </div>
+   )}
+   <div className="flex flex-col items-center mt-9">
     <h1 className="text-xl">{location && capitalizeFirstLetter(location)}</h1>
     <h3 className="font-light text-5xl pb-1">{weatherData && weatherData.current.temp.toFixed()}°</h3>
     <p>{weatherData && capitalizeFirstLetter(weatherData.current.weather[0].description)}</p>
@@ -110,13 +126,13 @@ export const Location = () => {
      <p>
       <FontAwesomeIcon icon={faSun} size="xs" /> UV-INDEX
      </p>
-     <h2>{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
+     <h2 className="text-3xl text-center">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
     </DetailBlock>
     <DetailBlock>
      <p>
       <FontAwesomeIcon icon={faCalendarDays} size="xs" /> SUNSET
      </p>
-     <h2>{weatherData && convertEpochToTime(weatherData.current.sunset, true)}</h2>
+     <h2 className="text-3xl text-center leading-10">{weatherData && convertEpochToTime(weatherData.current.sunset, true)}</h2>
      <p>
       Sun up: <span>{weatherData && convertEpochToTime(weatherData.current.sunrise, true)}</span>
      </p>

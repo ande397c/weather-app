@@ -6,10 +6,12 @@ import { faPencil, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { cardData } from "./data/cardData";
 import { useNavigate } from "react-router-dom";
+import { AddedCity } from "./types/addedCity";
 
 const App = () => {
  const navigate = useNavigate();
  const [city, setCity] = useState<string>("");
+ const [cities, setCities] = useState<AddedCity[]>([]);
  const [editingMode, setEditingMode] = useState(false);
 
  const search = () => {
@@ -22,7 +24,12 @@ const App = () => {
      {editingMode ? (
       <button onClick={() => setEditingMode((prev) => !prev)}>OK</button>
      ) : (
-      <div onClick={()=>{setEditingMode(true)}} className="rounded-full border border-white size-7 flex justify-center items-center">
+      <div
+       onClick={() => {
+        setEditingMode(true);
+       }}
+       className="rounded-full border border-white size-7 flex justify-center items-center"
+      >
        <FontAwesomeIcon icon={faPencil} size="sm" />
       </div>
      )}
@@ -42,7 +49,7 @@ const App = () => {
     )}
    </div>
    {cardData.map((forecast, i) => (
-    <ForecastCard key={i} location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} editModeEnabled={editingMode} />
+    <ForecastCard key={i} location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} />
    ))}
   </MainLayout>
  );

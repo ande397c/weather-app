@@ -1,4 +1,4 @@
-export interface FutureForecast {
+export interface DailyForecast {
  dt: number;
  sunrise: number;
  sunset: number;

@@ -1,4 +1,4 @@
-import { FutureForecast } from "../types/futureForecast";
+import { DailyForecast } from "./dailyForecast";
 import { HourlyForecast } from "../types/HourlyForecast";
 
 export interface WeatherLocation {
@@ -20,7 +20,7 @@ export interface WeatherLocation {
    }
   ];
  };
- daily: FutureForecast[];
+ daily: DailyForecast[];
  hourly: HourlyForecast[];
  lat: number;
  lon: number;

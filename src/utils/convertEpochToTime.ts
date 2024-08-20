@@ -1,4 +1,4 @@
-export const convertEpochToTime = (epoch: number, includeMinutes: boolean) => {
+export const convertEpochToTime = (epoch: number, includeMinutes: boolean = false) => {
  const convertedTime = new Date(epoch * 1000);
 
  const options: Intl.DateTimeFormatOptions = {

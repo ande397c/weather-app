@@ -12,3 +12,14 @@ export const addCityToStorage = (city: string | undefined) => {
   }
  }
 };
+
+export const removeCityFromStorage = (city: string) => {
+ const storage = JSON.parse(localStorage.getItem("cities") || "[]");
+ const index = storage.indexOf(city);
+
+ if (index !== -1) {
+  storage.splice(index, 1);
+ }
+ localStorage.setItem("cities", JSON.stringify(storage));
+};
+

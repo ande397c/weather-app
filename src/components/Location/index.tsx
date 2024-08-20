@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MainLayout } from "../../layout/MainLayout";
 import { DetailBlock } from "../DetailBlock";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import {getCoordinates, getWeatherData } from "../../services/weatherServices"
 import { WeatherLocation } from "../../types/weatherLocation";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 import { convertEpochToDate } from "../../utils/convertEpochToDate";
@@ -14,55 +14,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const Location = () => {
  const navigate = useNavigate();
  const { location } = useParams<{ location: string }>();
- const [isCityAdded, setIsCityAdded] = useState(getStorageCities().includes(location));
- const [coordinates, setCoordinates] = useState({ lat: Number, lon: Number });
  const [weatherData, setWeatherData] = useState<WeatherLocation>();
-
- const api_key = import.meta.env.VITE_API_KEY;
+ const [isCityAdded, setIsCityAdded] = useState(getStorageCities().includes(location));
+ const [errorOccured, setErrorOccured] = useState(false);
 
  useEffect(() => {
-  getCoordinates();
+  fetchWeather();
  }, []);
 
- const getCoordinates = async () => {
-  await axios
-   .get(`http://api.openweathermap.org/geo/1.0/direct?&limit=1`, {
-    params: {
-     q: location,
-     appid: api_key,
-    },
-   })
-   .then(function (response) {
-    const { lat, lon } = response.data[0];
-    const roundedLat = lat.toFixed(2);
-    const roundedLon = lon.toFixed(2);
-    setCoordinates({ lat: roundedLat, lon: roundedLon });
-    getWeatherData(lat, lon);
-   })
-   .catch(function (error) {
-    console.log(error);
-   });
+ const fetchWeather = async () => {
+  try {
+   const { lat, lon } = await getCoordinates(location);
+   const weather = await getWeatherData(lat, lon);
+   setWeatherData(weather);
+  } catch (error) {
+   setErrorOccured(true)
+  }
  };
 
- const getWeatherData = async (lat: number, lon: number) => {
-  await axios
-   .get(`https://api.openweathermap.org/data/3.0/onecall`, {
-    params: {
-     lat: lat,
-     lon: lon,
-     units: "metric",
-     exclude: "minutely",
-     appid: api_key,
-    },
-   })
-   .then(function (response) {
-    console.log(response);
-    setWeatherData(response.data);
-   })
-   .catch(function (error) {
-    console.log(error);
-   });
- };
 
  const addCity = () => {
   addCityToStorage(location);
@@ -70,7 +39,7 @@ export const Location = () => {
  };
 
  return (
-  <MainLayout>
+  <MainLayout showError={errorOccured}>
    {!isCityAdded && (
     <div className="flex justify-between">
      <p onClick={() => navigate("/")}>Cancel</p>
@@ -126,7 +95,9 @@ export const Location = () => {
      <p>
       <FontAwesomeIcon icon={faSun} size="xs" /> UV-INDEX
      </p>
-     <h2 className="text-3xl text-center">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
+     <div className="flex justify-center items-center h-[70%]">
+      <h2 className="text-3xl text-center">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
+     </div>
     </DetailBlock>
     <DetailBlock>
      <p>

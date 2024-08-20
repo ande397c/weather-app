@@ -1,4 +1,5 @@
 import { convertEpochToTime } from "../../utils/convertEpochToTime";
+import { removeCityFromStorage } from "../../utils/LocalStorage";
 import { Link } from "react-router-dom";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,10 +15,15 @@ interface ForecastCardProps {
 }
 
 export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTemp, editModeEnabled }: ForecastCardProps) => {
+
+ const removeCity = () => {
+  removeCityFromStorage(location);
+ };
+ 
  const CardContent = (
   <>
    {editModeEnabled && (
-    <div className="rounded-full bg-red-500 size-5 flex justify-center items-center">
+    <div onClick={removeCity} className="rounded-full bg-red-500 size-5 flex justify-center items-center">
      <FontAwesomeIcon icon={faMinus} size="xs" />
     </div>
    )}
@@ -37,7 +43,7 @@ export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTem
        L: <span>{LowTemp}°</span>
       </p>
      </div>
-    )} 
+    )}
    </div>
   </>
  );

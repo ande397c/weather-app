@@ -96,7 +96,7 @@ export const Location = () => {
       <FontAwesomeIcon icon={faSun} size="xs" /> UV-INDEX
      </p>
      <div className="flex justify-center items-center h-[70%]">
-      <h2 className="text-3xl text-center">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
+      <h2 className="text-4xl text-center">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
      </div>
     </DetailBlock>
     <DetailBlock>

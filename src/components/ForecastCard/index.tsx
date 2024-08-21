@@ -1,5 +1,5 @@
 import { convertEpochToTime } from "../../utils/convertEpochToTime";
-import { removeCityFromStorage } from "../../utils/LocalStorage";
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 import { Link } from "react-router-dom";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,18 +12,14 @@ interface ForecastCardProps {
  HighTemp: number;
  LowTemp: number;
  editModeEnabled: boolean;
+ onClick: () => void;
 }
 
-export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTemp, editModeEnabled }: ForecastCardProps) => {
-
- const removeCity = () => {
-  removeCityFromStorage(location);
- };
- 
+export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTemp, editModeEnabled, onClick }: ForecastCardProps) => {
  const CardContent = (
   <>
    {editModeEnabled && (
-    <div onClick={removeCity} className="rounded-full bg-red-500 size-5 flex justify-center items-center">
+    <div onClick={onClick} className="rounded-full bg-red-500 size-5 flex justify-center items-center">
      <FontAwesomeIcon icon={faMinus} size="xs" />
     </div>
    )}
@@ -31,16 +27,16 @@ export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTem
     <div className={`flex justify-between ${editModeEnabled ? "h-12" : "h-16"}`}>
      <div>
       <h2 className="font-semibold text-lg">{location}</h2>
-      <p className="font-normal text-base">{convertEpochToTime(Dt, true)}</p>
+      <p className="font-normal text-base">{convertEpochToTime(Dt, true, false)}</p>
      </div>
-     <h2 className="text-4xl font-">{temperature}°</h2>
+     <h2 className="text-4xl font-">{Math.round(temperature)}°</h2>
     </div>
     {!editModeEnabled && (
      <div className="flex justify-between">
-      <p className="text-sm">{desc}</p>
+      <p className="text-sm">{capitalizeFirstLetter(desc)}</p>
       <p className="text-sm">
-       H: <span className="mr-2">{HighTemp}°</span>
-       L: <span>{LowTemp}°</span>
+       H: <span className="mr-2">{Math.round(HighTemp)}°</span>
+       L: <span>{Math.round(LowTemp)}°</span>
       </p>
      </div>
     )}

@@ -1,22 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MainLayout } from "./layout/MainLayout";
 import { ForecastCard } from "./components/ForecastCard";
 import { Input } from "./components/Input";
-import { faPencil, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faPencil, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { cardData } from "./data/cardData";
 import { useNavigate } from "react-router-dom";
 import { AddedCity } from "./types/addedCity";
+import { getStorageCities, removeCityFromStorage } from "./utils/LocalStorage";
+import { getCoordinates, getWeatherData } from "./services/weatherServices";
 
 const App = () => {
  const navigate = useNavigate();
  const [city, setCity] = useState<string>("");
  const [cities, setCities] = useState<AddedCity[]>([]);
  const [editingMode, setEditingMode] = useState(false);
+ const [errorOccured, setErrorOccured] = useState(false);
 
  const search = () => {
   navigate(`/weather/${city}`);
  };
+
+ useEffect(() => {
+fetchWeather();
+ }, []);
+
+ const fetchWeather = async () => {
+  try {
+   const cities = getStorageCities();
+
+   const updatedCities: AddedCity[] = [];
+
+   for (const city of cities) {
+    const { lat, lon } = await getCoordinates(city);
+    const weatherData = await getWeatherData(lat, lon);
+
+    const updatedCity: AddedCity = {
+     location: city,
+     temperature: weatherData.current.temp,
+     desc: weatherData.current.weather[0].description,
+     Dt: weatherData.current.dt,
+     HighTemp: weatherData.daily[0].temp.max,
+     LowTemp: weatherData.daily[0].temp.min,
+     editModeEnabled: false,
+    };
+
+    updatedCities.push(updatedCity);
+   }
+   setCities(updatedCities);
+  } catch (error) {
+   setErrorOccured(true);
+  }
+ };
+
+ const removeCity = (location: string) => {
+  removeCityFromStorage(location);
+  const updatedCityList = cities.filter((city) => city.location !== location);
+  setCities(updatedCityList);
+ };
+
+
+
  return (
   <MainLayout>
    <div className="sticky top-0 bg-black py-2">
@@ -48,9 +91,17 @@ const App = () => {
      </button>
     )}
    </div>
-   {cardData.map((forecast, i) => (
-    <ForecastCard key={i} location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} />
-   ))}
+   {errorOccured ? (
+    <div className="mt-10">
+     <h2 className="text-2xl text-white text-center">An error occured</h2>
+     <div className="flex justify-center mt-4 mb-2">
+      <FontAwesomeIcon icon={faCircleExclamation} size="3x" />
+     </div>
+     <p className="text-center text-gray-500">Please try again</p>
+    </div>
+   ) : (
+    cities.map((forecast, i) => <ForecastCard key={i} location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} onClick={() => removeCity(forecast.location)} />)
+   )}
   </MainLayout>
  );
 };

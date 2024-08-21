@@ -1,4 +1,4 @@
-export const convertEpochToTime = (epoch: number, includeMinutes: boolean = false) => {
+export const convertEpochToTime = (epoch: number, includeMinutes: boolean = false, showNow: boolean = true) => {
  const convertedTime = new Date(epoch * 1000);
 
  const options: Intl.DateTimeFormatOptions = {
@@ -10,7 +10,7 @@ export const convertEpochToTime = (epoch: number, includeMinutes: boolean = fals
  const time = convertedTime.toLocaleTimeString("en-US", options);
  const currentTime = new Date().toLocaleTimeString("en-US", options);
 
- if (time === currentTime) {
+ if (time === currentTime && showNow) {
   return "Now";
  }
 

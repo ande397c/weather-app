@@ -2,12 +2,12 @@ import axios from "axios";
 
 const api_key = import.meta.env.VITE_API_KEY;
 
-export const getCoordinates = async (location: string | undefined) => {
+export const getCoordinates = async (location: string | undefined, limit: number = 1) => {
  try {
   const response = await axios.get(`http://api.openweathermap.org/geo/1.0/direct`, {
    params: {
     q: location,
-    limit: 1,
+    limit: limit,
     appid: api_key,
    },
   });

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ForecastCardProps {
  location: string;
+ timeZone: string;
  temperature: number;
  desc: string;
  Dt: number;
@@ -15,7 +16,7 @@ interface ForecastCardProps {
  onClick: () => void;
 }
 
-export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTemp, editModeEnabled, onClick }: ForecastCardProps) => {
+export const ForecastCard = ({ location, timeZone, temperature, desc, Dt, HighTemp, LowTemp, editModeEnabled, onClick }: ForecastCardProps) => {
  const CardContent = (
   <>
    {editModeEnabled && (
@@ -27,7 +28,7 @@ export const ForecastCard = ({ location, temperature, desc, Dt, HighTemp, LowTem
     <div className={`flex justify-between ${editModeEnabled ? "h-12" : "h-16"}`}>
      <div>
       <h2 className="font-semibold text-lg">{location}</h2>
-      <p className="font-normal text-base">{convertEpochToTime(Dt, true, false)}</p>
+      <p className="font-normal text-base">{convertEpochToTime(Dt, true, false, timeZone)}</p>
      </div>
      <h2 className="text-4xl font-">{Math.round(temperature)}°</h2>
     </div>

@@ -21,7 +21,7 @@ const App = () => {
  };
 
  useEffect(() => {
-fetchWeather();
+  fetchWeather();
  }, []);
 
  const fetchWeather = async () => {
@@ -36,6 +36,7 @@ fetchWeather();
 
     const updatedCity: AddedCity = {
      location: city,
+     timeZone: weatherData.timezone,
      temperature: weatherData.current.temp,
      desc: weatherData.current.weather[0].description,
      Dt: weatherData.current.dt,
@@ -58,8 +59,6 @@ fetchWeather();
   setCities(updatedCityList);
  };
 
-
-
  return (
   <MainLayout>
    <div className="sticky top-0 bg-black py-2">
@@ -81,12 +80,13 @@ fetchWeather();
     <Input
      startIcon={faSearch}
      placeholder="Search after city"
+     onSubmit={search}
      onChange={(e) => {
       setCity(e.target.value);
      }}
     />
     {city.length > 0 && (
-     <button onClick={search} className="m-2 w-full">
+     <button onClick={search} className="mt-2 w-full h-8">
       Search
      </button>
     )}
@@ -100,7 +100,7 @@ fetchWeather();
      <p className="text-center text-gray-500">Please try again</p>
     </div>
    ) : (
-    cities.map((forecast, i) => <ForecastCard key={i} location={forecast.location} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} onClick={() => removeCity(forecast.location)} />)
+    cities.map((forecast, i) => <ForecastCard key={i} location={forecast.location} timeZone={forecast.timeZone} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} onClick={() => removeCity(forecast.location)} />)
    )}
   </MainLayout>
  );

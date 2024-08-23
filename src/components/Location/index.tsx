@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { MainLayout } from "../../layout/MainLayout";
 import { DetailBlock } from "../DetailBlock";
 import { useParams, useNavigate } from "react-router-dom";
-import {getCoordinates, getWeatherData } from "../../services/weatherServices"
+import { getCoordinates, getWeatherData } from "../../services/weatherServices";
 import { WeatherLocation } from "../../types/weatherLocation";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 import { convertEpochToDate } from "../../utils/convertEpochToDate";
 import { convertEpochToTime } from "../../utils/convertEpochToTime";
+import { renderUVIndexText } from "../../utils/renderUVIndexText";
 import { addCityToStorage, getStorageCities } from "../../utils/LocalStorage";
 import { faCalendarDays, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,18 +29,16 @@ export const Location = () => {
    const weather = await getWeatherData(lat, lon);
    setWeatherData(weather);
   } catch (error) {
-   setErrorOccured(true)
+   setErrorOccured(true);
   }
  };
-
-
  const addCity = () => {
   addCityToStorage(location);
-  setIsCityAdded(true)
+  setIsCityAdded(true);
  };
 
  return (
-  <MainLayout showError={errorOccured}>
+  <MainLayout showError={errorOccured} showFooter>
    {!isCityAdded && (
     <div className="flex justify-between">
      <p onClick={() => navigate("/")}>Cancel</p>
@@ -49,8 +48,8 @@ export const Location = () => {
     </div>
    )}
    <div className="flex flex-col items-center mt-9">
-    <h1 className="text-xl">{location && capitalizeFirstLetter(location)}</h1>
-    <h3 className="font-light text-5xl pb-1">{weatherData && weatherData.current.temp.toFixed()}°</h3>
+    <h1 className="text-2xl">{location && capitalizeFirstLetter(location)}</h1>
+    <h3 className="font-light text-6xl pb-1">{weatherData && weatherData.current.temp.toFixed()}°</h3>
     <p>{weatherData && capitalizeFirstLetter(weatherData.current.weather[0].description)}</p>
     <p className="flex gap-3">
      <span>H: {weatherData && Math.round(weatherData.daily[0].temp.max)}°</span>
@@ -59,11 +58,11 @@ export const Location = () => {
    </div>
    <DetailBlock>
     <p className="border-b border-teal-600 pb-1">{weatherData && weatherData.daily[0].summary}</p>
-    <div className="flex justify-between overflow-x-auto gap-1 pt-1 w-[99%]">
+    <div className="flex justify-between overflow-x-auto gap-2 pt-1 w-[99%]">
      {weatherData &&
       weatherData.hourly.map((hour, i) => (
        <div key={i} className={`flex flex-col items-center`}>
-        <p className="">{convertEpochToTime(hour.dt, false)}</p>
+        <p className="">{convertEpochToTime(hour.dt, false, true, weatherData.timezone)}</p>
         <div className="size-9">
          <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt={hour.weather[0].main} />
         </div>
@@ -95,9 +94,8 @@ export const Location = () => {
      <p>
       <FontAwesomeIcon icon={faSun} size="xs" /> UV-INDEX
      </p>
-     <div className="flex justify-center items-center h-[70%]">
-      <h2 className="text-4xl text-center">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
-     </div>
+     <h2 className="text-4xl text-center leading-10">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
+     <p>{renderUVIndexText(weatherData && Math.round(weatherData.daily[0].uvi))}</p>
     </DetailBlock>
     <DetailBlock>
      <p>
@@ -107,6 +105,39 @@ export const Location = () => {
      <p>
       Sun up: <span>{weatherData && convertEpochToTime(weatherData.current.sunrise, true)}</span>
      </p>
+    </DetailBlock>
+   </div>
+
+   <div className="grid grid-cols-2 gap-2">
+    <DetailBlock>
+     <p>
+      <FontAwesomeIcon icon={faSun} size="xs" /> Feels like
+     </p>
+     <div className="flex justify-center items-center h-[70%]">
+      <h2 className="text-4xl text-center">{weatherData && Math.round(weatherData.current.feels_like)}°</h2>
+     </div>
+    </DetailBlock>
+    <DetailBlock>
+     <p>
+      <FontAwesomeIcon icon={faCalendarDays} size="xs" /> Humidity
+     </p>
+     <h2 className="text-3xl text-center leading-10">{weatherData && weatherData.current.humidity}%</h2>
+    </DetailBlock>
+   </div>
+   <div className="grid grid-cols-2 gap-2">
+    <DetailBlock>
+     <p>
+      <FontAwesomeIcon icon={faSun} size="xs" /> Visibility
+     </p>
+     <div className="flex justify-center items-center h-[70%]">
+      <h2 className="text-4xl text-center">{weatherData && weatherData.current.visibility / 1000} km</h2>
+     </div>
+    </DetailBlock>
+    <DetailBlock>
+     <p>
+      <FontAwesomeIcon icon={faCalendarDays} size="xs" /> Air pressure
+     </p>
+     <h2 className="text-3xl text-center leading-10">{weatherData && weatherData.current.pressure} hPa</h2>
     </DetailBlock>
    </div>
   </MainLayout>

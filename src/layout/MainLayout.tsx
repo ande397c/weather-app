@@ -21,9 +21,9 @@ export const MainLayout = ({ children, showFooter = false, showError = false }: 
  
  return (
   <>
-   <section className="m-4 text-white h-screen">{showError ? ErrorContent : children}</section>
+   <section className="m-4 text-white h-full">{showError ? ErrorContent : children}</section>
    {showFooter && (
-    <footer className="fixed bottom-0 w-full h-12 flex items-center justify-end pr-4 bg-zinc-700">
+    <footer className="sticky bottom-0 w-full h-12 flex items-center justify-end pr-4 bg-zinc-700">
      <Link to="/" className="">
       <div className="flex justify-end text-white">
        <FontAwesomeIcon icon={faBars} size="xl" />

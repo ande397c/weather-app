@@ -9,19 +9,19 @@ interface MainLayoutProps {
 }
 
 export const MainLayout = ({ children, showFooter = false, showError = false }: MainLayoutProps) => {
- const ErrorContent = (
-  <div>
+ const ErrorMessage = (
+  <div className="mt-10">
    <h2 className="text-2xl text-white text-center">Error occured</h2>
    <div className="flex justify-center mt-4 mb-2">
     <FontAwesomeIcon icon={faCircleExclamation} size="3x" />
    </div>
-   <p className="text-center text-gray-500">Please go back</p>
+   <p className="text-center text-gray-500">Could not load data or the city is invalid</p>
   </div>
  );
  
  return (
   <>
-   <section className="m-4 text-white h-full">{showError ? ErrorContent : children}</section>
+   <section className={`${showError ? 'h-screen' : 'h-full'} m-4 text-white `}>{showError ? ErrorMessage : children}</section>
    {showFooter && (
     <footer className="sticky bottom-0 w-full h-12 flex items-center justify-end pr-4 bg-zinc-700">
      <Link to="/" className="">

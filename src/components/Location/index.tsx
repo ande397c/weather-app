@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { MainLayout } from "../../layout/MainLayout";
 import { DetailBlock } from "../DetailBlock";
+import { HourlyForecastElement } from "../HourlyForecastElement";
+import { DailyForecastElement } from "../DailyForecastElement";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCoordinates, getWeatherData } from "../../services/weatherServices";
 import { WeatherLocation } from "../../types/weatherLocation";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
-import { convertEpochToDate } from "../../utils/convertEpochToDate";
 import { convertEpochToTime } from "../../utils/convertEpochToTime";
 import { renderUVIndexText } from "../../utils/renderUVIndexText";
 import { addCityToStorage, getStorageCities } from "../../utils/LocalStorage";
 import { faCalendarDays, faSun } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Location = () => {
  const navigate = useNavigate();
@@ -28,6 +28,7 @@ export const Location = () => {
    const { lat, lon } = await getCoordinates(location);
    const weather = await getWeatherData(lat, lon);
    setWeatherData(weather);
+   console.log(weatherData);
   } catch (error) {
    setErrorOccured(true);
   }
@@ -56,87 +57,44 @@ export const Location = () => {
      <span>L: {weatherData && Math.round(weatherData.daily[0].temp.min)}°</span>
     </p>
    </div>
-   <DetailBlock>
-    <p className="border-b border-teal-600 pb-1">{weatherData && weatherData.daily[0].summary}</p>
-    <div className="flex justify-between overflow-x-auto gap-2 pt-1 w-[99%]">
-     {weatherData &&
-      weatherData.hourly.map((hour, i) => (
-       <div key={i} className={`flex flex-col items-center`}>
-        <p className="">{convertEpochToTime(hour.dt, false, true, weatherData.timezone)}</p>
-        <div className="size-9">
-         <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt={hour.weather[0].main} />
-        </div>
-        <p className="">{Math.round(hour.temp)}°</p>
-       </div>
-      ))}
-    </div>
+   <DetailBlock text={weatherData && weatherData.daily[0].summary} includeBorder>
+    <div className="flex justify-between overflow-x-auto gap-2 pt-1 w-[99%]">{weatherData && weatherData.hourly.map((hour, i) => <HourlyForecastElement key={i} epoch={hour.dt} timezone={weatherData.timezone} weatherIcon={hour.weather[0].icon} weatherDesc={hour.weather[0].main} temp={hour.temp} />)}</div>
    </DetailBlock>
 
-   <DetailBlock>
-    <p className="border-b border-teal-600 pb-1">
-     <FontAwesomeIcon icon={faCalendarDays} size="xs" /> Forecast for the next {weatherData && weatherData.daily.length} days
-    </p>
-    {weatherData &&
-     weatherData.daily.map((day, i, { length }) => (
-      <div key={i} className={`flex items-center justify-between ${length - 1 !== i && "border-b border-teal-600 py-1"} `}>
-       <p className="w-7">{convertEpochToDate(day.dt)}</p>
-       <div className="size-10">
-        <img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt={day.weather[0].main} />
-       </div>
-       <p className="text-gray-400">L:{Math.round(day.temp.min)}°</p>
-       <p className="text-white">H:{Math.round(day.temp.max)}°</p>
-      </div>
-     ))}
+   <DetailBlock text={`Forecast for the next ${weatherData && weatherData.daily.length} days`} icon={faCalendarDays} includeBorder>
+    {weatherData && weatherData.daily.map((day, i, { length }) => <DailyForecastElement key={i} len={length} i={i} epoch={day.dt} weatherIcon={day.weather[0].icon} weatherDesc={day.weather[0].main} tempLow={day.temp.min} tempHigh={day.temp.max} />)}
    </DetailBlock>
 
    <div className="grid grid-cols-2 gap-2">
-    <DetailBlock>
-     <p>
-      <FontAwesomeIcon icon={faSun} size="xs" /> UV-INDEX
-     </p>
+    <DetailBlock text="UV-INDEX" icon={faSun}>
      <h2 className="text-4xl text-center leading-10">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
      <p>{renderUVIndexText(weatherData && Math.round(weatherData.daily[0].uvi))}</p>
     </DetailBlock>
-    <DetailBlock>
+    <DetailBlock text="SUNSET" icon={faCalendarDays}>
+     <h2 className="text-3xl text-center leading-10">{weatherData && convertEpochToTime(weatherData.current.sunset, true, false, weatherData.timezone)}</h2>
      <p>
-      <FontAwesomeIcon icon={faCalendarDays} size="xs" /> SUNSET
-     </p>
-     <h2 className="text-3xl text-center leading-10">{weatherData && convertEpochToTime(weatherData.current.sunset, true)}</h2>
-     <p>
-      Sun up: <span>{weatherData && convertEpochToTime(weatherData.current.sunrise, true)}</span>
+      Sun up: <span>{weatherData && convertEpochToTime(weatherData.current.sunrise, true, false, weatherData.timezone)}</span>
      </p>
     </DetailBlock>
    </div>
 
    <div className="grid grid-cols-2 gap-2">
-    <DetailBlock>
-     <p>
-      <FontAwesomeIcon icon={faSun} size="xs" /> Feels like
-     </p>
+    <DetailBlock text="Feels like" icon={faSun}>
      <div className="flex justify-center items-center h-[70%]">
       <h2 className="text-4xl text-center">{weatherData && Math.round(weatherData.current.feels_like)}°</h2>
      </div>
     </DetailBlock>
-    <DetailBlock>
-     <p>
-      <FontAwesomeIcon icon={faCalendarDays} size="xs" /> Humidity
-     </p>
+    <DetailBlock text="Humidity" icon={faCalendarDays}>
      <h2 className="text-3xl text-center leading-10">{weatherData && weatherData.current.humidity}%</h2>
     </DetailBlock>
    </div>
    <div className="grid grid-cols-2 gap-2">
-    <DetailBlock>
-     <p>
-      <FontAwesomeIcon icon={faSun} size="xs" /> Visibility
-     </p>
+    <DetailBlock text="Visibility" icon={faSun}>
      <div className="flex justify-center items-center h-[70%]">
       <h2 className="text-4xl text-center">{weatherData && weatherData.current.visibility / 1000} km</h2>
      </div>
     </DetailBlock>
-    <DetailBlock>
-     <p>
-      <FontAwesomeIcon icon={faCalendarDays} size="xs" /> Air pressure
-     </p>
+    <DetailBlock text="Air pressure" icon={faCalendarDays}>
      <h2 className="text-3xl text-center leading-10">{weatherData && weatherData.current.pressure} hPa</h2>
     </DetailBlock>
    </div>

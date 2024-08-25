@@ -11,6 +11,8 @@ export interface WeatherLocation {
   uvi: number;
   clouds: number;
   wind_speed: number;
+  wind_deg: number;
+  wind_gust: number;
   humidity: number;
   visibility: number;
   feels_like: number;

@@ -15,6 +15,7 @@ const App = () => {
  const [cities, setCities] = useState<AddedCity[]>([]);
  const [editingMode, setEditingMode] = useState(false);
  const [errorOccured, setErrorOccured] = useState(false);
+ const [isLoading, setIsLoading] = useState(false);
 
  const search = () => {
   navigate(`/weather/${city}`);
@@ -25,6 +26,7 @@ const App = () => {
  }, []);
 
  const fetchWeather = async () => {
+  setIsLoading(true);
   try {
    const cities = getStorageCities();
 
@@ -50,6 +52,8 @@ const App = () => {
    setCities(updatedCities);
   } catch (error) {
    setErrorOccured(true);
+  } finally {
+   setIsLoading(false);
   }
  };
 
@@ -85,6 +89,7 @@ const App = () => {
       setCity(e.target.value);
      }}
     />
+    {isLoading && <h2 className="text-center">Is loading..</h2>}
     {city.length > 0 && (
      <button onClick={search} className="mt-2 w-full h-8">
       Search

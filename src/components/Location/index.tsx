@@ -29,7 +29,6 @@ export const Location = () => {
    const { lat, lon } = await getCoordinates(location);
    const weather = await getWeatherData(lat, lon);
    setWeatherData(weather);
-   console.log( weatherData);
   } catch (error) {
    setErrorOccured(true);
   }
@@ -38,6 +37,8 @@ export const Location = () => {
   addCityToStorage(location);
   setIsCityAdded(true);
  };
+
+ console.log(weatherData);
 
  return (
   <MainLayout showError={errorOccured} showFooter>
@@ -80,22 +81,23 @@ export const Location = () => {
    </div>
 
    <DetailBlock text="Wind">
-    <div className="grid grid-cols-[65%_35%] items-center px-4">
+    <div className="grid grid-cols-[65%_35%] items-center px-8">
      <div className="flex flex-col">
-      <div className="flex gap-2 border-b border-white">
-       <h2 className="text-4xl">{weatherData && Math.round(weatherData.current.wind_speed)}</h2>
+      <div className="flex gap-2">  
+       {/* border-b border-white */}
+       <h2 className="text-5xl">{weatherData && Math.round(weatherData.current.wind_speed)}</h2>
        <div>
         <p>m/s</p>
         <p>Wind</p>
        </div>
       </div>
-      <div>
+      {/* <div>
        <h2 className="text-4xl">{weatherData && weatherData.current.wind_gust}</h2>
        <div>
         <p>m/s</p>
         <p>Wind Guts</p>
        </div>
-      </div>
+      </div> */}
      </div>
      <Compass windDirection={weatherData && weatherData.current.wind_deg} />
     </div>

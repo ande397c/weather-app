@@ -24,7 +24,7 @@ export const ForecastCard = ({ location, timeZone, temperature, desc, Dt, HighTe
      <FontAwesomeIcon icon={faMinus} size="xs" />
     </div>
    )}
-   <div className="w-full px-3 p-2 bg-slate-900 rounded-xl my-3">
+   <div className="w-full px-3 p-2 bg-darkGrey rounded-xl my-3">
     <div className={`flex justify-between ${editModeEnabled ? "h-12" : "h-16"}`}>
      <div>
       <h2 className="font-semibold text-lg">{location}</h2>

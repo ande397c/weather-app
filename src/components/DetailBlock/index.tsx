@@ -9,8 +9,8 @@ interface DetailBlockProps {
 
 export const DetailBlock = ({ children, text, icon, includeBorder }: DetailBlockProps) => {
  return (
-  <div className="bg-slate-500 rounded-lg mt-4 p-2">
-   <p className={includeBorder ? "border-b border-teal-600 pb-1" : `pb-1`}>
+  <div className="bg-darkGrey rounded-lg mt-4 p-2">
+   <p className={includeBorder ? "border-b border-lightGrey pb-1" : `pb-1`}>
     {icon && <FontAwesomeIcon icon={icon} size="xs" />} {text}
    </p>
    {children}

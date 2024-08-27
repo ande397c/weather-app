@@ -11,7 +11,7 @@ import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
 import { convertEpochToTime } from "../../utils/convertEpochToTime";
 import { renderUVIndexText } from "../../utils/renderUVIndexText";
 import { addCityToStorage, getStorageCities } from "../../utils/LocalStorage";
-import { faCalendarDays, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faSun, faWind, faEye, faTemperatureQuarter, faWater, faCompress, faStar } from "@fortawesome/free-solid-svg-icons";
 
 export const Location = () => {
  const navigate = useNavigate();
@@ -37,8 +37,6 @@ export const Location = () => {
   addCityToStorage(location);
   setIsCityAdded(true);
  };
-
- console.log(weatherData);
 
  return (
   <MainLayout showError={errorOccured} showFooter>
@@ -72,18 +70,18 @@ export const Location = () => {
      <h2 className="text-4xl text-center leading-10">{weatherData && Math.round(weatherData.daily[0].uvi)}</h2>
      <p>{renderUVIndexText(weatherData && Math.round(weatherData.daily[0].uvi))}</p>
     </DetailBlock>
-    <DetailBlock text="SUNSET" icon={faCalendarDays}>
+    <DetailBlock text="SUNSET" icon={faStar}>
      <h2 className="text-3xl text-center leading-10">{weatherData && convertEpochToTime(weatherData.current.sunset, true, false, weatherData.timezone)}</h2>
      <p>
-      Sun up: <span>{weatherData && convertEpochToTime(weatherData.current.sunrise, true, false, weatherData.timezone)}</span>
+      Sunrise: <span>{weatherData && convertEpochToTime(weatherData.current.sunrise, true, false, weatherData.timezone)}</span>
      </p>
     </DetailBlock>
    </div>
 
-   <DetailBlock text="Wind">
+   <DetailBlock text="Wind" icon={faWind}>
     <div className="grid grid-cols-[65%_35%] items-center px-8">
      <div className="flex flex-col">
-      <div className="flex gap-2">  
+      <div className="flex gap-2">
        {/* border-b border-white */}
        <h2 className="text-5xl">{weatherData && Math.round(weatherData.current.wind_speed)}</h2>
        <div>
@@ -104,22 +102,22 @@ export const Location = () => {
    </DetailBlock>
 
    <div className="grid grid-cols-2 gap-2">
-    <DetailBlock text="Feels like" icon={faSun}>
+    <DetailBlock text="Feels like" icon={faTemperatureQuarter}>
      <div className="flex justify-center items-center h-[70%]">
       <h2 className="text-4xl text-center">{weatherData && Math.round(weatherData.current.feels_like)}°</h2>
      </div>
     </DetailBlock>
-    <DetailBlock text="Humidity" icon={faCalendarDays}>
+    <DetailBlock text="Humidity" icon={faWater}>
      <h2 className="text-3xl text-center leading-10">{weatherData && weatherData.current.humidity}%</h2>
     </DetailBlock>
    </div>
    <div className="grid grid-cols-2 gap-2">
-    <DetailBlock text="Visibility" icon={faSun}>
+    <DetailBlock text="Visibility" icon={faEye}>
      <div className="flex justify-center items-center h-[70%]">
       <h2 className="text-4xl text-center">{weatherData && weatherData.current.visibility / 1000} km</h2>
      </div>
     </DetailBlock>
-    <DetailBlock text="Air pressure" icon={faCalendarDays}>
+    <DetailBlock text="Air pressure" icon={faCompress}>
      <h2 className="text-3xl text-center leading-10">{weatherData && weatherData.current.pressure} hPa</h2>
     </DetailBlock>
    </div>

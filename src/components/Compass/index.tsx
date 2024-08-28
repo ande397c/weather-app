@@ -6,7 +6,7 @@ export const Compass = ({ windDirection = 240 }) => {
    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331 331">
     <g fillRule="evenodd" opacity=".5">
      <path fill="#fff" d="M11.5 0 23 23H0z" transform="translate(154 31)" />
-     <path stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="2" d="m11.421 250 .158 17.999" transform="translate(154 31)" />
+     <path stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="3" d="m11.421 250 .158 17.999" transform="translate(154 31)" />
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(3 -566.204 3300.048)" />
      </g>
@@ -34,7 +34,7 @@ export const Compass = ({ windDirection = 240 }) => {
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(27 12.19 493.137)" />
      </g>
-     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="2">
+     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(30 19.555 457.394)" />
      </g>
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
@@ -64,7 +64,7 @@ export const Compass = ({ windDirection = 240 }) => {
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(57 51.69 301.446)" />
      </g>
-     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="2">
+     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(60 53.555 292.394)" />
      </g>
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
@@ -94,7 +94,7 @@ export const Compass = ({ windDirection = 240 }) => {
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(87 65.086 236.437)" />
      </g>
-     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="2">
+     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="3">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(90 66 232)" />
      </g>
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
@@ -124,7 +124,7 @@ export const Compass = ({ windDirection = 240 }) => {
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(117 72.582 200.056)" />
      </g>
-     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="2">
+     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(120 73.185 197.131)" />
      </g>
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
@@ -154,7 +154,7 @@ export const Compass = ({ windDirection = 240 }) => {
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(147 77.965 173.938)" />
      </g>
-     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel" strokeWidth="2">
+     <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">
       <path d="m.421 0 .158 17.999M.421 247l.158 17.999" transform="rotate(150 78.445 171.606)" />
      </g>
      <g stroke="#fff" strokeLinecap="square" strokeLinejoin="bevel">

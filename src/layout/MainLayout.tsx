@@ -23,7 +23,7 @@ export const MainLayout = ({ children, showFooter = false, showError = false }: 
   <>
    <section className={`${showError ? 'h-screen' : 'h-full'} m-4 text-white `}>{showError ? ErrorMessage : children}</section>
    {showFooter && (
-    <footer className="sticky bottom-0 w-full bg-darkGrey h-12 flex items-center justify-end pr-4 border-t border-lightGrey">
+    <footer className="sticky bottom-0 w-full bg-blue h-12 flex items-center justify-end pr-4 border-t border-white/40">
      <Link to="/" className="">
       <div className="flex justify-end text-white">
        <FontAwesomeIcon icon={faBars} size="xl" />

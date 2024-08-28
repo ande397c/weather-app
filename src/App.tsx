@@ -89,7 +89,7 @@ const App = () => {
       setCity(e.target.value);
      }}
     />
-    {isLoading && <h2 className="text-center">Is loading..</h2>}
+    {isLoading && <h2 className="text-center mt-4">Loading...</h2>}
     {city.length > 0 && (
      <button onClick={search} className="mt-2 w-full h-8">
       Search

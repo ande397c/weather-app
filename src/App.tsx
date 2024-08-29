@@ -96,17 +96,19 @@ const App = () => {
      </button>
     )}
    </div>
-   {errorOccured ? (
-    <div className="mt-10">
-     <h2 className="text-2xl text-white text-center">An error occured</h2>
-     <div className="flex justify-center mt-4 mb-2">
-      <FontAwesomeIcon icon={faCircleExclamation} size="3x" />
+   <section className="h-frontpage-height overflow-y-auto">
+    {errorOccured ? (
+     <div className="mt-10">
+      <h2 className="text-2xl text-white text-center">An error occured</h2>
+      <div className="flex justify-center mt-4 mb-2">
+       <FontAwesomeIcon icon={faCircleExclamation} size="3x" />
+      </div>
+      <p className="text-center text-lightGrey">Could not load data. Please try again</p>
      </div>
-     <p className="text-center text-gray-500">Please try again</p>
-    </div>
-   ) : (
-    cities.map((forecast, i) => <ForecastCard key={i} location={forecast.location} timeZone={forecast.timeZone} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} onClick={() => removeCity(forecast.location)} />)
-   )}
+    ) : (
+     cities.map((forecast, i) => <ForecastCard key={i} location={forecast.location} timeZone={forecast.timeZone} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} onClick={() => removeCity(forecast.location)} />)
+    )}
+   </section>
   </MainLayout>
  );
 };

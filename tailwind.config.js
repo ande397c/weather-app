@@ -10,6 +10,9 @@ export default {
    blue: "#3E80C1",
    red: "#FF453A",
   },
+  height: {
+   "frontpage-height": "calc(100vh - 190px)",
+  },
  },
  plugins: [],
 };

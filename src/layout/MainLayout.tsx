@@ -22,13 +22,11 @@ export const MainLayout = ({ children, showFooter = false, showError = false }: 
  
  return (
   <>
-   <section className={`${showError ? 'h-screen' : 'h-full'} m-4 text-white `}>{showError ? ErrorMessage : children}</section>
+   <section className={`${showError ? "h-screen" : "h-full"} m-4 text-white `}>{showError ? ErrorMessage : children}</section>
    {showFooter && (
     <footer className="sticky bottom-0 w-full bg-blue py-2 flex items-center justify-end pr-4 border-t border-white/40">
-     <Link to="/" className="">
-      <div className="flex justify-end text-white">
+     <Link to="/" className="flex justify-end text-white">
        <FontAwesomeIcon icon={faBars} size="xl" />
-      </div>
      </Link>
     </footer>
    )}

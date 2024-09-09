@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MainLayout } from "./layout/MainLayout";
 import { ForecastCard } from "./components/ForecastCard";
 import { Input } from "./components/Input";
-import { faCircleExclamation, faPencil, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faPencil, faSearch, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { AddedCity } from "./types/addedCity";
@@ -97,6 +97,15 @@ const App = () => {
     )}
    </div>
    <section className="h-frontpage-height overflow-y-auto">
+    {cities.length == 0 && (
+     <div className="mt-10">
+      <h2 className="text-2xl text-white text-center">No cities added</h2>
+      <div className="flex justify-center mt-4 mb-2">
+       <FontAwesomeIcon icon={faLocationDot} size="3x" />
+      </div>
+      <p className="text-center text-lightGrey">Search for a city to add it to your list </p>
+     </div>
+    )}
     {errorOccured ? (
      <div className="mt-10">
       <h2 className="text-2xl text-white text-center">An error occured</h2>

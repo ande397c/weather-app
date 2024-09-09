@@ -27,7 +27,7 @@ export const ForecastCard = ({ location, timeZone, temperature, desc, Dt, HighTe
    <div className="w-full px-3 p-2 bg-blue rounded-xl my-3">
     <div className={`flex justify-between ${editModeEnabled ? "h-12" : "h-16"}`}>
      <div>
-      <h2 className="font-semibold text-lg">{location}</h2>
+      <h2 className="font-semibold text-lg">{capitalizeFirstLetter(location)}</h2>
       <p className="font-normal text-base">{convertEpochToTime(Dt, true, false, timeZone)}</p>
      </div>
      <h2 className="text-4xl font-">{Math.round(temperature)}°</h2>

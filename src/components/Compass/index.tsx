@@ -1,6 +1,6 @@
 import "./compass.css"
 import {getWindDirection} from "../../utils/getWindDirection"
-export const Compass = ({ windDirection = 240 }) => {
+export const Compass = ({ windDirection = 0 }) => {
  return (
   <div className="compass">
    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331 331">

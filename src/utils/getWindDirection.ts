@@ -15,7 +15,7 @@ export const getWindDirection = (windDirection: number): string => {
   return "W";
  } else if (windDirection >= 292.5 && windDirection < 337.5) {
   return "NW";
- } else if (windDirection >= 337.5 && windDirection < 360) {
+ } else if (windDirection >= 337.5 && windDirection <= 360) {
   return "N";
  } else {
   return "--";

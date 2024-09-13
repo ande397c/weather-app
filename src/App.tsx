@@ -97,7 +97,7 @@ const App = () => {
     )}
    </div>
    <section className="h-frontpage-height overflow-y-auto">
-    {cities.length == 0 && (
+    {cities.length == 0 && !isLoading && (
      <div className="mt-10">
       <h2 className="text-2xl text-white text-center">No cities added</h2>
       <div className="flex justify-center mt-4 mb-2">

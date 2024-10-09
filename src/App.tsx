@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { AddedCity } from "./types/addedCity";
 import { getStorageCities, removeCityFromStorage } from "./utils/LocalStorage";
+import { capitalizeFirstLetter } from "./utils/capitalizeFirstLetter";
 import { getCoordinates, getWeatherData } from "./services/weatherServices";
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
  const [isLoading, setIsLoading] = useState(false);
 
  const search = () => {
-  navigate(`/weather/${city}`);
+  navigate(`/weather/${capitalizeFirstLetter(city)}`);
  };
 
  useEffect(() => {
@@ -66,7 +67,7 @@ const App = () => {
  return (
   <MainLayout>
    <div className="sticky top-0 bg-black py-2">
-    <div className="flex justify-end mb-4 w-full">
+    <div className="flex justify-end mb-4 w-full min-h-10">
      {editingMode ? (
       <button onClick={() => setEditingMode((prev) => !prev)}>OK</button>
      ) : (
@@ -91,13 +92,13 @@ const App = () => {
     />
     {isLoading && <h2 className="text-center mt-4">Loading...</h2>}
     {city.length > 0 && (
-     <button onClick={search} className="mt-2 w-full h-8">
-      Search
+     <button onClick={search} className="mt-2 w-full min-h-8">
+      Search for weather in <span className="font-semibold text-blue">{capitalizeFirstLetter(city)}</span>
      </button>
     )}
    </div>
    <section className="h-frontpage-height overflow-y-auto">
-    {cities.length == 0 && !isLoading && (
+    {cities.length == 0 && !isLoading && !errorOccured && (
      <div className="mt-10">
       <h2 className="text-2xl text-white text-center">No cities added</h2>
       <div className="flex justify-center mt-4 mb-2">

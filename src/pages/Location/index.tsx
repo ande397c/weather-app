@@ -4,9 +4,11 @@ import { DetailBlock } from '../../components/DetailBlock';
 import { Compass } from '../../components/Compass';
 import { DailyForecastList } from '../../components/lists/DailyForecastList';
 import { HourlyForecastList } from '../../components/lists/HourlyForecastList';
+import { ErrorMessage } from '../../components/ErrorMessage';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCoordinates, getWeatherData } from '../../services/weatherServices';
 import { WeatherLocation } from '../../types/weatherLocation';
+import { AppStates } from '../../types/appStates';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { convertEpochToTime } from '../../utils/convertEpochToTime';
 import { renderUVIndexText } from '../../utils/renderUVIndexText';
@@ -26,10 +28,11 @@ export const Location = () => {
   const navigate = useNavigate();
   const { location } = useParams<{ location: string }>();
   const [weatherData, setWeatherData] = useState<WeatherLocation>();
+  const [appState, setAppState] = useState<AppStates>('Loading');
+  
   const [isCityAdded, setIsCityAdded] = useState(
     getStorageCities().includes(location)
   );
-  const [errorOccured, setErrorOccured] = useState(false);
 
   useEffect(() => {
     fetchWeather();
@@ -41,8 +44,10 @@ export const Location = () => {
       const weather = await getWeatherData(lat, lon);
       setWeatherData(weather);
     } catch (error) {
-      setErrorOccured(true);
+      setAppState('errorOccured')
+      return
     }
+    setAppState('Done')
   };
 
   const addCity = () => {
@@ -51,7 +56,7 @@ export const Location = () => {
   };
 
   return (
-    <MainLayout showError={errorOccured} showFooter>
+    <MainLayout showError={appState === 'errorOccured'} showFooter>
       {!isCityAdded && (
         <div className="flex justify-between">
           <p onClick={() => navigate('/')}>Cancel</p>
@@ -121,7 +126,7 @@ export const Location = () => {
               )}
           </h2>
           <p>
-            Sunrise:{' '}
+            Sunrise:
             <span>
               {weatherData &&
                 convertEpochToTime(

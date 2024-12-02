@@ -2,13 +2,15 @@ import axios from 'axios';
 
 const api_key = import.meta.env.VITE_API_KEY;
 
+const BASE_URL = 'https://api.openweathermap.org';
+
 export const getCoordinates = async (
   location: string | undefined,
   limit: number = 1
 ) => {
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/geo/1.0/direct`,
+      `${BASE_URL}/geo/1.0/direct`,
       {
         params: {
           q: location,
@@ -33,7 +35,7 @@ export const getCoordinates = async (
 export const getWeatherData = async (lat: number, lon: number) => {
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/3.0/onecall`,
+      `${BASE_URL}/data/3.0/onecall`,
       {
         params: {
           lat: lat,

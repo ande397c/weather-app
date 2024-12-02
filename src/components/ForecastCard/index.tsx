@@ -60,7 +60,7 @@ export const ForecastCard = ({
   return editModeEnabled ? (
     <div className="flex items-center gap-3">{CardContent}</div>
   ) : (
-    <Link className="flex items-center gap-3" to={`/weather/${location}`}>
+    <Link className="flex items-center gap-3" to={`/weather/${forecast.location}`}>
       {CardContent}
     </Link>
   );

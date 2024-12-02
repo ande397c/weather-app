@@ -116,7 +116,11 @@ const App = () => {
       <p className="text-center text-lightGrey">Could not load data. Please try again</p>
      </div>
     ) : (
-     cities.map((forecast, i) => <ForecastCard key={i} location={forecast.location} timeZone={forecast.timeZone} temperature={forecast.temperature} desc={forecast.desc} Dt={forecast.Dt} HighTemp={forecast.HighTemp} LowTemp={forecast.LowTemp} editModeEnabled={editingMode} onClick={() => removeCity(forecast.location)} />)
+     cities.map((forecast, i) => 
+     <ForecastCard key={i} 
+     forecast={forecast} 
+     editModeEnabled={editingMode} 
+     onClick={() => removeCity(forecast.location)} />)
     )}
    </section>
   </MainLayout>

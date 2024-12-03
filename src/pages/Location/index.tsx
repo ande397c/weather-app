@@ -4,7 +4,6 @@ import { DetailBlock } from '../../components/DetailBlock';
 import { Compass } from '../../components/Compass';
 import { DailyForecastList } from '../../components/lists/DailyForecastList';
 import { HourlyForecastList } from '../../components/lists/HourlyForecastList';
-import { ErrorMessage } from '../../components/ErrorMessage';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCoordinates, getWeatherData } from '../../services/weatherServices';
 import { WeatherLocation } from '../../types/weatherLocation';
